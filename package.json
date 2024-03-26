@@ -4,11 +4,13 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.19.2"
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongoose": "^8.2.3"
   },
   "scripts": {
     "start": "yarn serve",
-    "build": "yarn build-ts && yarn tslint",
+    "build": "yarn build-ts",
     "serve": "node dist/server.js",
     "watch-node": "node dist/server.js",
     "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"yarn watch-ts\" \"yarn watch-node\"",
@@ -26,7 +28,6 @@
     "@types/express": "^4.17.21",
     "@types/node": "^20.11.30",
     "concurrently": "^8.2.2",
-    "dotenv": "^16.4.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.3"
   }
