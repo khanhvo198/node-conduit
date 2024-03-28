@@ -6,6 +6,7 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.2.3"
   },
   "scripts": {
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.11.30",
     "concurrently": "^8.2.2",
     "ts-node": "^10.9.2",
