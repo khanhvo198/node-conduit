@@ -1,3 +1,5 @@
+import { NextFunction } from 'express';
+import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
@@ -13,6 +15,9 @@ const userSchema = new mongoose.Schema({
     type: String,
   },
   image: {
+    type: String,
+  },
+  password: {
     type: String,
   },
 });
