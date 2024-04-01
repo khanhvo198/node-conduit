@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { User } from '../models/User';
 
-interface User {
+export interface User {
   email: string;
   username: string;
   bio?: string;
