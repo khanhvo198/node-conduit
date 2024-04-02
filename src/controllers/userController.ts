@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
+import { Request } from 'express-jwt';
 import generateToken from '../utils/token.utils';
 import { UserModel } from '../models/User';
 
@@ -8,9 +9,8 @@ export const getCurrentUser = async (
   res: Response,
   next: NextFunction
 ) => {
-  const _id = req.auth?.user?._id;
-  console.log(_id);
-  const user = await UserModel.findById(_id);
+  const id = req.auth?.user?.id;
+  const user = await UserModel.findById(id);
 
   res.json({
     user,
@@ -23,7 +23,7 @@ export const updateUser = async (
   next: NextFunction
 ) => {
   const userPayload = req.body.user;
-  const currentUserId = req.auth?.user?._id;
+  const id = req.auth?.user?.id;
 
   const { email, username, password, bio, image } = userPayload;
 
@@ -40,9 +40,9 @@ export const updateUser = async (
     ...(image ? { image } : {}),
   };
 
-  await UserModel.findByIdAndUpdate(currentUserId, userUpdated);
+  await UserModel.findByIdAndUpdate(id, userUpdated);
 
-  const token = generateToken(currentUserId!);
+  const token = generateToken(id!);
 
   res.json({
     user: userUpdated,

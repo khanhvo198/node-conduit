@@ -16,7 +16,6 @@
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": ["./src/types"],
     "baseUrl": ".",
     "paths": {
       "*": ["node_modules", "src/*"]
