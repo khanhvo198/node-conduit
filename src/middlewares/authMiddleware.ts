@@ -1,5 +1,6 @@
-import { expressjwt as jwt } from 'express-jwt';
+import 'dotenv/config';
 import { Request } from 'express';
+import { expressjwt as jwt } from 'express-jwt';
 
 const getTokenFromHeader = (req: Request): string | undefined => {
   if (
