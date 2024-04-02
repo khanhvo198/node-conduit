@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { User } from '../models/User';
+import { NextFunction, Request, Response } from 'express';
+import generateToken from '../utils/token.utils';
+import { UserModel } from '../models/User';
 
 export interface User {
   email: string;
@@ -30,15 +30,13 @@ export const login = async (
     return next('Error');
   }
 
-  const user = await User.findOne({ email }).select('+password');
+  const user = await UserModel.findOne({ email }).select('+password');
 
   if (!user || (await comparePassword(user.password!, password))) {
     return next('Error');
   }
 
-  const token = jwt.sign({ email }, process.env.JWT_SECRET as jwt.Secret, {
-    expiresIn: 24 * 60 * 60,
-  });
+  const token = generateToken(user._id.toHexString());
 
   res.status(200).json({
     user: {
@@ -61,15 +59,15 @@ export const register = async (
 
     const hashPassword = await bcrypt.hash(password, 12);
 
-    await User.create({
+    const user = await UserModel.create({
       email,
       username,
       password: hashPassword,
+      bio: null,
+      image: 'https://api.realworld.io/images/smiley-cyrus.jpeg',
     });
 
-    const token = jwt.sign({ email }, process.env.JWT_SECRET as jwt.Secret, {
-      expiresIn: 24 * 60 * 60,
-    });
+    const token = generateToken(user._id.toHexString());
 
     res.status(200).json({
       user: {
