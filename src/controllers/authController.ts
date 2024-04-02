@@ -1,16 +1,8 @@
 import bcrypt from 'bcryptjs';
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, Response } from 'express';
+import { Request } from 'express-jwt';
 import generateToken from '../utils/token.utils';
 import { UserModel } from '../models/User';
-
-export interface User {
-  email: string;
-  username: string;
-  bio?: string;
-  image?: string;
-  token?: string;
-  password?: string;
-}
 
 const comparePassword = async (
   candidatePassword: string,
@@ -36,7 +28,7 @@ export const login = async (
     return next('Error');
   }
 
-  const token = generateToken(user._id.toHexString());
+  const token = generateToken(user.id);
 
   res.status(200).json({
     user: {
@@ -67,7 +59,7 @@ export const register = async (
       image: 'https://api.realworld.io/images/smiley-cyrus.jpeg',
     });
 
-    const token = generateToken(user._id.toHexString());
+    const token = generateToken(user.id);
 
     res.status(200).json({
       user: {

@@ -1,6 +1,13 @@
-import { NextFunction } from 'express';
-import bcrypt from 'bcryptjs';
 import mongoose from 'mongoose';
+
+export interface User {
+  email: string;
+  username: string;
+  bio: string | null;
+  image: string;
+  token: string | null;
+  password: string;
+}
 
 const userSchema = new mongoose.Schema(
   {
