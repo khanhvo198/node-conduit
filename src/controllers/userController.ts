@@ -1,51 +1,34 @@
-import bcrypt from 'bcryptjs';
-import { NextFunction, Response } from 'express';
+import { NextFunction, Response, Router } from 'express';
 import { Request } from 'express-jwt';
-import generateToken from '../utils/token.utils';
-import { UserModel } from '../models/User';
+import auth from '../middlewares/authMiddleware';
+import { getCurrentUser, updateUser } from '../services/userService';
 
-export const getCurrentUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const id = req.auth?.user?.id;
-  const user = await UserModel.findById(id);
+const router = Router();
 
-  res.json({
-    user,
-  });
-};
-
-export const updateUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  const userPayload = req.body.user;
-  const id = req.auth?.user?.id;
-
-  const { email, username, password, bio, image } = userPayload;
-
-  let hashPassword;
-  if (password) {
-    hashPassword = await bcrypt.hash(password, 12);
+router.get(
+  '/user',
+  auth.required,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = await getCurrentUser(req.auth?.user?.id);
+      res.status(200).json({ user });
+    } catch (error) {
+      next(error);
+    }
   }
+);
 
-  const userUpdated = {
-    ...(email ? { email } : {}),
-    ...(username ? { username } : {}),
-    ...(password ? { password: hashPassword } : {}),
-    ...(bio ? { bio } : {}),
-    ...(image ? { image } : {}),
-  };
+router.put(
+  '/user',
+  auth.required,
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = await updateUser(req.body.user, req.auth?.user?.id);
+      res.status(200).json({ user });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
-  await UserModel.findByIdAndUpdate(id, userUpdated);
-
-  const token = generateToken(id!);
-
-  res.json({
-    user: userUpdated,
-    token,
-  });
-};
+export default router;
