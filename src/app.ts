@@ -1,6 +1,4 @@
 import express from 'express';
-import { authRoutes } from './routes/authRoutes';
-import { userRoutes } from './routes/userRoutes';
 import HttpException from './utils/http-exception.model';
 import { Request, Response, NextFunction } from 'express';
 import routes from './routes/routes';
