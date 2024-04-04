@@ -2,9 +2,9 @@ import mongoose from 'mongoose';
 
 export interface User {
   email: string;
-  username: string;
+  username: string | null;
   bio: string | null;
-  image: string;
+  image: string | null;
   token: string | null;
   password: string;
 }
@@ -29,6 +29,18 @@ const userSchema = new mongoose.Schema(
       type: String,
       select: false,
     },
+    following: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+      },
+    ],
+    followedBy: [
+      {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+      },
+    ],
   },
   {
     toJSON: { virtuals: true },
