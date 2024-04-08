@@ -4,6 +4,10 @@ import { login, register } from '../services/authService';
 
 const router = Router();
 
+/**
+ * @POST
+ * register feature, add new user
+ */
 router.post(
   '/users',
   async (req: Request, res: Response, next: NextFunction) => {
@@ -16,6 +20,10 @@ router.post(
   }
 );
 
+/**
+ * @POST
+ * handle login user
+ */
 router.post(
   '/users/login',
   async (req: Request, res: Response, next: NextFunction) => {

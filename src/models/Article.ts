@@ -1,31 +1,48 @@
 import mongoose from 'mongoose';
 
-const articleSchema = new mongoose.Schema({
-  slug: {
-    type: String,
-  },
+export interface Article {
+  slug: string;
+  title: string;
+  description: string;
+  body: string;
+  tagList: string[];
+}
 
-  title: {
-    type: String,
-  },
+const articleSchema = new mongoose.Schema(
+  {
+    slug: {
+      type: String,
+    },
 
-  description: {
-    type: String,
-  },
+    title: {
+      type: String,
+    },
 
-  body: {
-    type: String,
-  },
-  tagList: {
-    type: String,
-  },
-  favorited: {
-    type: Boolean,
-  },
-  favoritesCount: {
-    type: Number,
-  },
-});
+    description: {
+      type: String,
+    },
 
-const Article = mongoose.model('Article', articleSchema);
-module.exports = Article;
+    body: {
+      type: String,
+    },
+    tagList: [
+      {
+        type: String,
+      },
+    ],
+    favorited: {
+      type: Boolean,
+    },
+    favoritesCount: {
+      type: Number,
+    },
+    author: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+    },
+  },
+  { timestamps: true }
+);
+
+const ArticleModel = mongoose.model('Article', articleSchema);
+export { ArticleModel };
