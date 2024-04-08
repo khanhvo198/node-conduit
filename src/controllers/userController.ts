@@ -5,6 +5,10 @@ import { getCurrentUser, updateUser } from '../services/userService';
 
 const router = Router();
 
+/**
+ * @GET
+ * handle get current user
+ */
 router.get(
   '/user',
   auth.required,
@@ -18,6 +22,10 @@ router.get(
   }
 );
 
+/**
+ * @PUT
+ * handle update user
+ */
 router.put(
   '/user',
   auth.required,
