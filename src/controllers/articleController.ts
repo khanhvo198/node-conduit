@@ -1,7 +1,7 @@
-import { NextFunction, Router, Response } from 'express';
-import auth from '../middlewares/authMiddleware';
+import { NextFunction, Response, Router } from 'express';
 import { Request } from 'express-jwt';
-import { ArticleModel } from 'models/Article';
+import { createArticle } from '../services/articleService';
+import auth from '../middlewares/authMiddleware';
 
 const router = Router();
 
@@ -14,7 +14,7 @@ router.get(
   auth.optional,
   async (req: Request, res: Response, next: NextFunction) => {
     // const articles = await ArticleModel.findMany()
-    
+
     res.json('hahahahahaha');
   }
 );
@@ -26,7 +26,15 @@ router.get(
 router.post(
   '/articles',
   auth.required,
-  async (req: Request, res: Response, next: NextFunction) => {}
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const article = await createArticle(req.body.article, req.auth?.user?.id);
+
+      res.status(201).json({
+        article,
+      });
+    } catch (error) {}
+  }
 );
 
 /**
