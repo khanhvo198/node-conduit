@@ -14,5 +14,5 @@ mongoose.connect(DB).then(() => {
 
 const PORT = 8080;
 app.listen(PORT, () => {
-  console.log('Hello from Mystic server');
+  console.log(`Hello from Mystic server ${PORT}`);
 });
