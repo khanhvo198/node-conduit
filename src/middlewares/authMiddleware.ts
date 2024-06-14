@@ -11,17 +11,20 @@ const getTokenFromHeader = (req: Request): string | undefined => {
   ) {
     return req.headers.authorization.split(' ')[1];
   }
+
   return undefined;
 };
 
 const auth = {
   required: jwt({
-    secret: process.env.JWT_SECRET!,
+    secret:
+      process.env.JWT_SECRET || 'THIS_IS_VERY_SECRET_NO_BODY_KNOWS_HE_HE_HE',
     algorithms: ['HS256'],
     getToken: getTokenFromHeader,
   }),
   optional: jwt({
-    secret: process.env.JWT_SECRET!,
+    secret:
+      process.env.JWT_SECRET || 'THIS_IS_VERY_SECRET_NO_BODY_KNOWS_HE_HE_HE',
     algorithms: ['HS256'],
     getToken: getTokenFromHeader,
     credentialsRequired: false,

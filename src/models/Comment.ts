@@ -1,10 +1,28 @@
 import mongoose from 'mongoose';
 
-const commentSchema = new mongoose.Schema({
-  body: {
-    type: String,
-  },
-});
+export interface Comment {
+  body: string;
+}
 
-const Comment = mongoose.model('Comment', commentSchema);
-module.exports = Comment;
+const commentSchema = new mongoose.Schema(
+  {
+    body: {
+      type: String,
+    },
+
+    article: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Article',
+    },
+
+    author: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+    },
+  },
+  { timestamps: true }
+);
+
+const CommentModel = mongoose.model('Comment', commentSchema);
+
+export { CommentModel };

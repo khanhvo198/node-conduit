@@ -7,6 +7,9 @@ export interface User {
   image: string | null;
   token: string | null;
   password: string;
+  followedBy: User[];
+  following: User[];
+  _id: string;
 }
 
 const userSchema = new mongoose.Schema(
