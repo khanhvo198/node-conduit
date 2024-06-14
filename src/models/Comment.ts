@@ -4,16 +4,25 @@ export interface Comment {
   body: string;
 }
 
-const commentSchema = new mongoose.Schema({
-  body: {
-    type: String,
-  },
+const commentSchema = new mongoose.Schema(
+  {
+    body: {
+      type: String,
+    },
 
-  article: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Article',
-  },
-});
+    article: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'Article',
+    },
 
-const Comment = mongoose.model('Comment', commentSchema);
-module.exports = Comment;
+    author: {
+      type: mongoose.Schema.ObjectId,
+      ref: 'User',
+    },
+  },
+  { timestamps: true }
+);
+
+const CommentModel = mongoose.model('Comment', commentSchema);
+
+export { CommentModel };
