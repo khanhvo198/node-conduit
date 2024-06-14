@@ -83,8 +83,18 @@ export const getArticles = async (query: any, id: string | undefined) => {
 };
 
 export const createArticle = async (article: Article, id: string) => {
-  // TODO: Check something here
   // require: title, body, description
+  if (!article.title) {
+    throw new HttpException(403, 'title is not defined');
+  }
+
+  if (!article.body) {
+    throw new HttpException(403, 'body is not defined');
+  }
+
+  if (!article.description) {
+    throw new HttpException(403, 'description is not defined');
+  }
 
   const newArticle = await ArticleModel.create({
     ...article,
